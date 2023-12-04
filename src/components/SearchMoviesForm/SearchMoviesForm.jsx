@@ -8,7 +8,7 @@ import { CiSearch } from 'react-icons/ci';
 const SearchMoviesForm = ({ handleSubmit }) => {
   const handleSearch = event => {
     event.preventDefault();
-    // console.log(event.target.search.value);
+
     handleSubmit(event.target.search.value);
     event.currentTarget.reset();
   };

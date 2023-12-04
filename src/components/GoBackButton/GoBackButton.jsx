@@ -1,3 +1,5 @@
-export const GoBackBtn = ({ path, children }) => {
-  return <button to={path}>{children}</button>;
+import { GoBackBtn } from './GoBackButton.styled';
+
+export const GoBack = ({ path }) => {
+  return <GoBackBtn to={path}>Go back</GoBackBtn>;
 };

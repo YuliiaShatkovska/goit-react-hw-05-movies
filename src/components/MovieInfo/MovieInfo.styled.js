@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const MovieInfoContainer = styled.div`
   display: flex;
   gap: 30px;
+  margin-top: 30px;
 `;
 
 export const TextContainer = styled.div`

@@ -1,9 +1,11 @@
 import { Container, Heading } from 'components/App/App.styled';
+import Loader from 'components/Loader/Loader';
 import MovieList from 'components/MovieList/MovieList';
 import SearchMoviesForm from 'components/SearchMoviesForm/SearchMoviesForm';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { getMoviesBySearch } from 'service/api';
+import Notiflix from 'notiflix';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,9 +27,8 @@ const Movies = () => {
       try {
         const data = await getMoviesBySearch(params);
         setData(data);
-        console.log(data);
       } catch (err) {
-        console.log(err);
+        Notiflix.Notify.failure(err);
       } finally {
         setIsLoading(false);
       }
@@ -38,7 +39,7 @@ const Movies = () => {
   return (
     <Container>
       <Heading>Search movies</Heading>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <Loader />}
       <SearchMoviesForm handleSubmit={handleSubmit} />
       {data.length > 0 && <MovieList movies={data} location={location} />}
     </Container>

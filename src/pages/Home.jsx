@@ -1,6 +1,7 @@
 import { Container, Heading } from 'components/App/App.styled';
 import Loader from 'components/Loader/Loader';
 import MovieList from 'components/MovieList/MovieList';
+import Notiflix from 'notiflix';
 import { useEffect, useState } from 'react';
 import { getTrendingMovies } from 'service/api';
 
@@ -15,7 +16,7 @@ const Home = () => {
         const data = await getTrendingMovies();
         setMovies(data);
       } catch (err) {
-        console.log(err);
+        Notiflix.Notify.failure(err);
       } finally {
         setIsLoading(false);
       }

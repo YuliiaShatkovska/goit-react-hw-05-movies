@@ -1,10 +1,17 @@
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import MovieInfo from 'components/MovieInfo/MovieInfo';
 import { Suspense, useEffect, useState } from 'react';
 
 import { getMovieById } from 'service/api';
-import { GoBackBtn } from 'components/GoBackButton/GoBackButton';
-import { Container } from 'components/App/App.styled';
+
+import {
+  Container,
+  MovieDetailsLink,
+  MovieDetailsList,
+} from 'components/App/App.styled';
+import { GoBack } from 'components/GoBackButton/GoBackButton';
+import Loader from 'components/Loader/Loader';
+import Notiflix from 'notiflix';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -13,8 +20,6 @@ const MovieDetails = () => {
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const goBackPath = location?.state?.from ?? '/';
-
   useEffect(() => {
     const getMovie = async () => {
       setIsLoading(true);
@@ -22,7 +27,7 @@ const MovieDetails = () => {
         const data = await getMovieById(movieId);
         setMovie(data);
       } catch (err) {
-        console.log(err);
+        Notiflix.Notify.failure(err);
       } finally {
         setIsLoading(false);
       }
@@ -30,17 +35,19 @@ const MovieDetails = () => {
     getMovie();
   }, [movieId]);
 
+  const goBackPath = location?.state?.from ?? '/';
+
   return (
     <Container>
-      {isLoading && <div>Loading...</div>}
-      <GoBackBtn path={goBackPath}>Go back</GoBackBtn>
+      {isLoading && <Loader />}
+      <GoBack path={goBackPath} />
       {movie && <MovieInfo movie={movie} />}
-      <ul>
-        <Link to="cast">Cast</Link>
-        <Link to="reviews">Reviews</Link>
-      </ul>
+      <MovieDetailsList>
+        <MovieDetailsLink to="cast">Cast</MovieDetailsLink>
+        <MovieDetailsLink to="reviews">Reviews</MovieDetailsLink>
+      </MovieDetailsList>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
     </Container>

@@ -4,7 +4,6 @@ import { BiCameraMovie } from 'react-icons/bi';
 import defaultImg from 'default-movie.jpg';
 
 const MovieList = ({ movies, location }) => {
-  // const location = useLocation();
   return (
     <List>
       {movies.map(({ id, original_title, poster_path }) => (
